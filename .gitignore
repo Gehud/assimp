@@ -28,6 +28,7 @@ lib/
 x64/
 # QtCreator
 CMakeLists.txt.user
+obj/
 
 # Generated
 assimp.pc
