@@ -298,7 +298,7 @@ void MDLImporter::SizeCheck(const void *szPos, const char *szFile, unsigned int 
         }
 
         char szBuffer[1024];
-        ::sprintf(szBuffer, "Invalid MDL file. The file is too small "
+        ::snprintf(szBuffer, sizeof(szBuffer), "Invalid MDL file. The file is too small "
                             "or contains invalid data (File: %s Line: %u)",
                 szFilePtr, iLine);
 
@@ -404,8 +404,13 @@ void MDLImporter::InternReadFile_Quake1() {
                     this->CreateTextureARGB8_3DGS_MDL3(szCurrent + iNumImages * sizeof(float));
                 }
                 // go to the end of the skin section / the beginning of the next skin
-                szCurrent += pcHeader->skinheight * pcHeader->skinwidth +
-                             sizeof(float) * iNumImages;
+                bool overflow = false;
+                if ((pcHeader->skinheight > INT_MAX / pcHeader->skinwidth) || (pcHeader->skinwidth > INT_MAX / pcHeader->skinheight)){
+                    overflow = true;
+                }
+                if (!overflow) {
+                    szCurrent += pcHeader->skinheight * pcHeader->skinwidth +sizeof(float) * iNumImages;
+                }
             }
         } else {
             szCurrent += sizeof(uint32_t);
