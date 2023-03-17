@@ -60,10 +60,6 @@ PROJECT(Assimp VERSION 5.2.5)
 
 # All supported options ###############################################
 
-OPTION( BUILD_SHARED_LIBS
-  "Build package with shared libraries."
-  ON
-)
 OPTION( ASSIMP_BUILD_FRAMEWORK
   "Build package as Mac OS X Framework bundle."
   OFF
